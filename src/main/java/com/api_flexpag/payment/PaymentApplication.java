@@ -27,9 +27,14 @@ public class PaymentApplication implements CommandLineRunner {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-		Payment p1 = new Payment(null, LocalDateTime.parse("06/03/2023 16:50", formatter), false);
+		Payment p1 = new Payment(null, "06/03/2023 16:50", false);
+		Payment p2 = new Payment(null, "12/06/2020 15:00", false);
 
-		paymentRepository.saveAll(Arrays.asList(p1));
+		paymentRepository.saveAll(Arrays.asList(p1, p2));
+
+		System.out.println(p1 + "payment test " + p2);
+
+
 
 	}
 }

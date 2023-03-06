@@ -3,6 +3,7 @@ package com.api_flexpag.payment.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Entity
@@ -13,15 +14,18 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 50)
     private LocalDateTime date;
+
+    @Column(nullable = false, length = 50)
     private Boolean pago = false;
 
     public Payment() {
     }
 
-    public Payment(Long id, LocalDateTime date, Boolean paid) {
+    public Payment(Long id, String date, Boolean paid) {
         this.id = id;
-        this.date = date;
+        this.date = getDateFromString(date);
         this.pago = pago;
     }
 
@@ -37,8 +41,8 @@ public class Payment {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setDate(String date) {
+        this.date = getDateFromString(date);
     }
 
     public Boolean getPago() {
@@ -47,6 +51,11 @@ public class Payment {
 
     public void setPago(Boolean pago) {
         this.pago = pago;
+    }
+
+    public LocalDateTime getDateFromString(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return LocalDateTime.parse(dateString, formatter);
     }
 
     @Override
