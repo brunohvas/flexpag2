@@ -1,5 +1,6 @@
 package com.api_flexpag.payment.entities;
 
+import com.api_flexpag.payment.enums.PaymentStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,15 +19,26 @@ public class Payment {
     private LocalDateTime date;
 
     @Column(nullable = false, length = 50)
-    private Boolean pago = false;
+    private Integer paymentStatus;
 
     public Payment() {
     }
 
-    public Payment(Long id, String date, Boolean paid) {
+    public Payment(Long id, String date, PaymentStatus paymentStatus) {
         this.id = id;
         this.date = getDateFromString(date);
-        this.pago = pago;
+        setPaymentStatus(paymentStatus);
+
+    }
+
+    public PaymentStatus getPaymentStatus(){
+        return PaymentStatus.value(paymentStatus);
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        if (paymentStatus != null) {
+            this.paymentStatus = paymentStatus.getCode();
+        }
     }
 
     public Long getId() {
@@ -45,13 +57,8 @@ public class Payment {
         this.date = getDateFromString(date);
     }
 
-    public Boolean getPago() {
-        return pago;
-    }
 
-    public void setPago(Boolean pago) {
-        this.pago = pago;
-    }
+
 
     public LocalDateTime getDateFromString(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -72,10 +79,12 @@ public class Payment {
 
     @Override
     public String toString() {
-        return "Payment{" +
-                "id=" + id +
-                ", date=" + date +
-                ", pago=" + pago +
-                '}';
+        return "Agendamento: " +
+                "id: " + id +
+                ", data e hora do agendamento:" + date +
+                ", situação do pagamento: " + getPaymentStatus() +
+                '.';
     }
 }
+
+

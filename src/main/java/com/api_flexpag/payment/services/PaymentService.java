@@ -22,4 +22,8 @@ public class PaymentService {
         Optional<Payment> obj = repository.findById(id);
         return obj.get();
     }
+
+    public Payment insert(Payment obj){
+        return repository.save(obj);
+    }
 }
